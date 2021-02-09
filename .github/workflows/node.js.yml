@@ -56,3 +56,17 @@ jobs:
           sudo git pull origin master
           sudo npm install
           sudo pm2 restart node-app
+          
+    - name: SSH and deploy node app - Production
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST_3 }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          cd /opt/nodejs-mysql-crud
+          sudo git pull origin master
+          sudo npm install
+          sudo pm2 restart node-app
+    
