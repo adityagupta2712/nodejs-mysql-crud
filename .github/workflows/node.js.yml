@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: SSH and deploy node app - 1
+    - name: SSH and deploy node app - 
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SSH_HOST_1 }}
@@ -44,7 +44,7 @@ jobs:
           sudo npm install --production
           sudo pm2 restart node-app
           
-    - name: SSH and deploy node app - 1
+    - name: SSH and deploy node app - 2
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SSH_HOST_2 }}
