@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: SSH and deploy node app - 
+    - name: SSH and deploy node app - 1
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SSH_HOST_1 }}
@@ -41,7 +41,7 @@ jobs:
         script: |
           cd /opt/nodejs-mysql-crud
           sudo git pull origin master
-          sudo npm install --production
+          sudo npm install 
           sudo pm2 restart node-app
           
     - name: SSH and deploy node app - 2
@@ -54,5 +54,5 @@ jobs:
         script: |
           cd /opt/nodejs-mysql-crud
           sudo git pull origin master
-          sudo npm install --production
+          sudo npm install
           sudo pm2 restart node-app
