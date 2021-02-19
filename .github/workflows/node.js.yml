@@ -26,47 +26,38 @@ jobs:
       env:
         CI: true
 
-  deploy:
+  DeployDEV:
+    name: Deploy to DEV 
+    if: github.event_name == 'pull_request'
     needs: [Build]
     runs-on: ubuntu-latest
-
+    environment: 
+      name: DEV
+      #url: 'http://www.myapp.com'
     steps:
-    - name: SSH and deploy node app - DEV
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SSH_HOST_1 }}
-        username: ${{ secrets.SSH_USERNAME }}
-        key: ${{ secrets.SSH_KEY }}
-        port: ${{ secrets.SSH_PORT }}
-        script: |
-          cd /opt/nodejs-mysql-crud
-          sudo git pull origin master
-          sudo npm install 
-          sudo pm2 restart node-app
-          
-    - name: SSH and deploy node app - STAGING
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SSH_HOST_2 }}
-        username: ${{ secrets.SSH_USERNAME }}
-        key: ${{ secrets.SSH_KEY }}
-        port: ${{ secrets.SSH_PORT }}
-        script: |
-          cd /opt/nodejs-mysql-crud
-          sudo git pull origin master
-          sudo npm install
-          sudo pm2 restart node-app
-          
-    - name: SSH and deploy node app - Production
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SSH_HOST_3 }}
-        username: ${{ secrets.SSH_USERNAME }}
-        key: ${{ secrets.SSH_KEY }}
-        port: ${{ secrets.SSH_PORT }}
-        script: |
-          cd /opt/nodejs-mysql-crud
-          sudo git pull origin master
-          sudo npm install
-          sudo pm2 restart node-app
+      - name: Deploy
+        run: echo I am deploying!
+  
+  DeployStaging:
+    name: Deploy to STAGING 
+    if: github.event.ref == 'refs/heads/master'
+    needs: [Build]
+    runs-on: ubuntu-latest
+    environment: 
+      name: Staging
+      #url: 'http://www.myapp.com'
+    steps:
+      - name: Deploy
+        run: echo I am deploying to staging!
+  
+  DeployProduction:
+    name: Deploy to Production 
+    needs: [DeployStaging]
+    runs-on: ubuntu-latest
+    environment: 
+      name: Production
+      #url: 'http://www.myapp.com'
+    steps:
+      - name: Deploy
+        run: echo I am deploying to Production!
     
